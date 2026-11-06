@@ -1,0 +1,59 @@
+APC RGB Controller - Free Use License
+
+Copyright (c) 2026 jonas-scl (https://github.com/jonas-scl). All rights reserved.
+
+The source code, the application builds, the icon and the documentation of
+this project (together "the Software") are protected by copyright. The
+copyright holder grants you the following permissions, free of charge:
+
+1. Use. You may download, install and run the Software for any purpose,
+   including commercial purposes (for example to operate lighting at paid
+   events, in a venue or in a rental company).
+
+2. Changes for yourself. You may modify the Software for your own use or for
+   internal use within your organisation.
+
+3. Sharing. You may share unmodified copies of the Software, free of charge,
+   provided that this license file and the copyright notice stay included.
+   Pointing others to the official repository is always welcome.
+
+4. Restrictions. Unless you have prior written permission from the copyright
+   holder (an e-mail is sufficient), you may NOT:
+   a) publish or distribute modified versions of the Software, or
+      substantial parts of its source code, in other projects;
+   b) sell, rent or sublicense the Software, or charge for it, alone or as
+      part of another product or service;
+   c) remove or change copyright notices or this license.
+
+5. Contributions. If you submit a contribution to this project (for example
+   a pull request, patch or suggestion with code), you confirm that you have
+   the right to do so, and you grant the copyright holder a perpetual,
+   worldwide, royalty-free and irrevocable license to use, modify, publish,
+   sublicense and distribute your contribution under any terms. Forking the
+   repository on GitHub to prepare a contribution is allowed.
+
+6. Third-party components. The Software uses third-party components (for
+   example Python, Tcl/Tk, python-rtmidi/RtMidi and CustomTkinter). They are
+   licensed under their own licenses, see THIRD_PARTY_LICENSES.md. Nothing in
+   this license limits the rights those licenses give you.
+
+7. Trademarks. This license grants no rights to any names or trademarks.
+   "Akai", "APC" and "APC mini" are trademarks of their respective owners,
+   "Onyx" and "Obsidian" likewise. This project is not affiliated with,
+   endorsed or supported by them.
+
+8. No warranty. The Software is provided "as is", without warranty of any
+   kind, express or implied, including but not limited to the warranties of
+   merchantability, fitness for a particular purpose and non-infringement.
+
+9. Limitation of liability. To the maximum extent permitted by applicable
+   law, the copyright holder is not liable for any damages arising from the
+   use of the Software. This does not limit liability for intent or gross
+   negligence, for injury to life, body or health, or any other liability
+   that cannot be excluded by law.
+
+10. Termination. If you violate this license, the permissions granted to you
+    end automatically.
+
+All rights not expressly granted in this license are reserved by the
+copyright holder.

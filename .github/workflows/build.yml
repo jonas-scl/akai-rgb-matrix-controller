@@ -1,0 +1,165 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: APC RGB Controller
+
+jobs:
+  build:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            label: Windows
+            artifact: APC-RGB-Controller-Windows
+          - os: macos-latest
+            label: macOS (Apple Silicon)
+            artifact: APC-RGB-Controller-macOS-AppleSilicon
+            screenshot: true
+          - os: macos-15-intel
+            label: macOS (Intel)
+            artifact: APC-RGB-Controller-macOS-Intel
+    steps:
+      - uses: actions/checkout@v4
+
+      # python-rtmidi only ships ready-made packages for Python 3.8 - 3.12.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+
+      - name: Tests
+        run: python -m pytest -q tests
+
+      - name: Collect license texts
+        shell: bash
+        run: |
+          python tools/third_party_notices.py THIRD_PARTY_NOTICES.txt
+          cp LICENSE LICENSE.txt
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name "$APP_NAME"
+          --icon assets/icon.png
+          --collect-data customtkinter
+          --add-data "apc_rgb/presets;apc_rgb/presets"
+          --add-data "apc_rgb/icon.png;apc_rgb"
+          --add-data "LICENSE.txt;apc_rgb"
+          --add-data "THIRD_PARTY_NOTICES.txt;apc_rgb"
+          --exclude-module PIL
+          main.py
+
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        run: >
+          pyinstaller --noconfirm --clean --onedir --windowed
+          --name "$APP_NAME"
+          --icon assets/icon.png
+          --osx-bundle-identifier io.github.jonas-scl.apcrgbcontroller
+          --collect-data customtkinter
+          --add-data "apc_rgb/presets:apc_rgb/presets"
+          --add-data "apc_rgb/icon.png:apc_rgb"
+          --add-data "LICENSE.txt:apc_rgb"
+          --add-data "THIRD_PARTY_NOTICES.txt:apc_rgb"
+          --exclude-module PIL
+          main.py
+
+      - name: Smoke test (Windows)
+        if: runner.os == 'Windows'
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          $env:APC_RGB_SMOKE_TEST = "1"
+          $env:APC_RGB_DATA_DIR = "$env:RUNNER_TEMP\apc-smoke"
+          $p = Start-Process -FilePath "dist\$env:APP_NAME.exe" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "App exited with $($p.ExitCode)" }
+          if (-not (Test-Path "$env:APC_RGB_DATA_DIR\current.midirgb")) { throw "App did not start correctly" }
+          Write-Host "Smoke test OK"
+
+      - name: Smoke test (macOS)
+        if: runner.os == 'macOS'
+        timeout-minutes: 3
+        run: |
+          export APC_RGB_SMOKE_TEST=1
+          export APC_RGB_DATA_DIR="$RUNNER_TEMP/apc-smoke"
+          "dist/$APP_NAME.app/Contents/MacOS/$APP_NAME"
+          test -f "$APC_RGB_DATA_DIR/current.midirgb"
+          echo "Smoke test OK"
+
+      - name: Screenshot for the README (macOS)
+        if: matrix.screenshot
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          export APC_RGB_DATA_DIR="$RUNNER_TEMP/apc-shot"
+          python tools/screenshot.py prepare "$APC_RGB_DATA_DIR"
+          APC_RGB_SMOKE_TEST=screenshot "dist/$APP_NAME.app/Contents/MacOS/$APP_NAME" &
+          sleep 5
+          screencapture -x "$RUNNER_TEMP/full.png"
+          wait
+          mkdir -p shot
+          python tools/screenshot.py crop "$APC_RGB_DATA_DIR" "$RUNNER_TEMP/full.png" shot/screenshot.png
+
+      - name: Upload screenshot
+        if: matrix.screenshot
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot
+          path: shot/screenshot.png
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          mkdir -p out
+          cp "dist/$APP_NAME.exe" "out/${{ matrix.artifact }}.exe"
+          cp LICENSE.txt THIRD_PARTY_NOTICES.txt out/
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          mkdir -p out
+          ditto -c -k --sequesterRsrc --keepParent "dist/$APP_NAME.app" "out/${{ matrix.artifact }}.zip"
+          cp LICENSE.txt THIRD_PARTY_NOTICES.txt out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: out/*
+          if-no-files-found: error
+
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          pattern: APC-RGB-Controller-*
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: out/*
+          generate_release_notes: true

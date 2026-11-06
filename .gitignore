@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+.venv/
+venv/
+.pytest_cache/
+LICENSE.txt
+THIRD_PARTY_NOTICES.txt
