@@ -20,7 +20,7 @@ COMMAND = 0x0008  # macOS
 
 
 class MatrixView(tk.Canvas):
-    def __init__(self, master, callbacks, all_label="All", bg=BG):
+    def __init__(self, master, callbacks, bg=BG):
         super().__init__(master, bg=bg, highlightthickness=0, bd=0)
         self.cb = callbacks
         self.pads = [(0, DEFAULT_MODE)] * 64
@@ -37,7 +37,7 @@ class MatrixView(tk.Canvas):
         self._dragging = False
         self._drag_start = None
         self._drag_moved = False
-        self._create_items(all_label)
+        self._create_items()
         self.bind("<Configure>", self._on_configure)
         self.bind("<ButtonPress-1>", self._press)
         self.bind("<Shift-ButtonPress-1>", lambda e: self._press(e, additive=True))
@@ -52,7 +52,7 @@ class MatrixView(tk.Canvas):
         self.bind(add_seq, lambda e: self._press(e, additive=True))
 
     # -- geometry ----------------------------------------------------------
-    def _create_items(self, all_label):
+    def _create_items(self):
         for note in range(64):
             self._pad_items[note] = round_rect(self, 0, 0, 1, 1, 1, fill=PAD_OFF, outline="")
             self._ring_items[note] = round_rect(self, 0, 0, 1, 1, 1, fill="", outline="", width=2)
@@ -61,13 +61,14 @@ class MatrixView(tk.Canvas):
             self._sel_items[("row", r)] = self._make_selector(None)
         for c in range(8):
             self._sel_items[("col", c)] = self._make_selector(None)
-        self._sel_items[("all",)] = self._make_selector(all_label)
+        # "all" corner: a small 2x2 grid icon (no text, so it always fits and needs no translation)
+        all_rect = round_rect(self, 0, 0, 1, 1, 1, fill=CARD, outline="")
+        for _ in range(4):
+            self.create_rectangle(0, 0, 1, 1, fill=MUTED, outline="", tags=("allicon",))
+        self._sel_items[("all",)] = (all_rect, "allicon")
         # selection box ("window") drawn while dragging
         self._marquee = self.create_rectangle(0, 0, 0, 0, outline=MARQUEE, width=2, dash=(6, 4),
                                               state="hidden")
-
-    def set_all_label(self, text):
-        self.itemconfigure(self._sel_items[("all",)][1], text=text)
 
     def _make_selector(self, text):
         rect = round_rect(self, 0, 0, 1, 1, 1, fill=CARD, outline="")
@@ -109,7 +110,6 @@ class MatrixView(tk.Canvas):
             self.itemconfigure(self._ring_items[note], width=ring_w)
             self.coords(self._badge_items[note], x2 - cell * 0.08, y2 - cell * 0.06)
             self.itemconfigure(self._badge_items[note], font=font)
-        sel_font = ("Helvetica", -max(8, int(cell * 0.2)))
         for key, (rect, label) in self._sel_items.items():
             x1, y1, x2, y2 = self._selector_box(key)
             move_round_rect(self, rect, x1, y1, x2, y2, min(x2 - x1, y2 - y1) * 0.3)
@@ -119,9 +119,11 @@ class MatrixView(tk.Canvas):
                 self.coords(label, cx - a, cy, cx + a, cy - a * 1.1, cx + a, cy + a * 1.1)
             elif key[0] == "col":  # arrow pointing up
                 self.coords(label, cx, cy - a, cx - a * 1.1, cy + a, cx + a * 1.1, cy + a)
-            else:
-                self.coords(label, cx, cy)
-                self.itemconfigure(label, font=sel_font)
+            else:  # 2x2 icon
+                q, g = cell * 0.07, cell * 0.025
+                for i, item in enumerate(self.find_withtag("allicon")):
+                    dx, dy = (i % 2) * (q + g) - (q + g / 2), (i // 2) * (q + g) - (q + g / 2)
+                    self.coords(item, cx + dx, cy + dy, cx + dx + q, cy + dy + q)
         self.refresh()
 
     def _pad_box(self, note):

@@ -201,17 +201,18 @@ class App(ctk.CTk):
             "press": self._pad_press, "rect": self._pad_rect, "release": self._pad_release,
             "pick": self._pad_pick, "row": self._select_row, "col": self._select_col,
             "all": self._select_all_toggle, "hover": self._pad_hover,
-        }, all_label=t("all"))
+        })
         self.matrix.grid(row=1, column=0, sticky="nsew", padx=16, pady=8)
 
         tools = ctk.CTkFrame(centre, fg_color="transparent")
         tools.grid(row=2, column=0, pady=(0, 6))
+        self._tools = []
 
         def tool(text, cmd, danger=False, width=0):
             b = ctk.CTkButton(tools, text=text, command=cmd, height=32, width=width or 28,
                               fg_color=CARD, hover_color=CARD_HOVER,
                               text_color=DANGER if danger else TEXT, font=self._font(13))
-            b.pack(side="left", padx=3)
+            self._tools.append(b)
             return b
 
         tool(t("select_all"), self.select_all)
@@ -222,7 +223,10 @@ class App(ctk.CTk):
         tool(t("all_off"), self.turn_off_all, danger=True)
 
         self.hint_label = ctk.CTkLabel(centre, text="", font=self._font(12), text_color=MUTED, height=20)
-        self.hint_label.grid(row=3, column=0, pady=(0, 14))
+        self.hint_label.grid(row=3, column=0, pady=(0, 14), padx=12)
+        self._tools_cols = None
+        self._arrange_tools(6)
+        centre.bind("<Configure>", self._on_centre_resize, add="+")
 
         # ---------- right: colour & mode ----------
         right = ctk.CTkScrollableFrame(self, fg_color=PANEL, corner_radius=0, width=300,
@@ -277,6 +281,19 @@ class App(ctk.CTk):
 
         ctk.CTkLabel(right, text=t("help"), font=self._font(11), text_color=MUTED, justify="left",
                      anchor="w", wraplength=260).grid(row=row, column=0, sticky="w", padx=18, pady=(18, 16))
+
+    def _arrange_tools(self, cols):
+        """Toolbar in one row (wide window) or two rows (narrow window)."""
+        if cols == self._tools_cols:
+            return
+        self._tools_cols = cols
+        for i, b in enumerate(self._tools):
+            b.grid(row=i // cols, column=i % cols, padx=3, pady=2)
+
+    def _on_centre_resize(self, event):
+        scale = ctk.ScalingTracker.get_widget_scaling(self)
+        self._arrange_tools(6 if event.width / scale >= 560 else 3)
+        self.hint_label.configure(wraplength=max(200, event.width / scale - 40))
 
     def _section(self, parent, text, row):
         ctk.CTkLabel(parent, text=text.upper(), font=self._font(11, "bold"), text_color=MUTED,
