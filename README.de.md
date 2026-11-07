@@ -5,24 +5,32 @@
 Farbsteuerung für die 64 RGB-Pads des **Akai APC mini mk2** – z. B. um das Pult passend zu den
 Belegungen in **Obsidian Onyx** einzufärben. Version 2 mit neuer, schlichter Oberfläche.
 
+![Screenshot des APC RGB Controllers](docs/screenshot.png)
+
 Die Oberfläche gibt es auf Deutsch und Englisch (richtet sich nach der Systemsprache, umschaltbar im
 •••-Menü).
 
-![Screenshot des APC RGB Controllers](docs/screenshot.png)
+## Download
 
-## Download (fertige Programme)
+Die neueste Version gibt es unter **[Releases](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest)** – ohne Installation und ohne Python:
 
-Unter **Actions → Build → letzter Lauf → Artifacts** (bzw. unter **Releases**, sobald ein Tag `v…`
-gepusht wurde) liegen fertige Programme, ohne dass Python installiert sein muss:
-
-| System | Datei | Start |
+| System | Download | Start |
 | --- | --- | --- |
-| Windows 10/11 | `APC-RGB-Controller-Windows.exe` | Doppelklick. Beim ersten Start evtl. „Weitere Informationen → Trotzdem ausführen“ (Programm ist nicht signiert). |
-| macOS Apple Silicon (M1–M4) | `APC-RGB-Controller-macOS-AppleSilicon.zip` | Entpacken, App in „Programme“ ziehen, **Rechtsklick → Öffnen** (nur beim ersten Mal, App ist nicht signiert). |
-| macOS Intel | `APC-RGB-Controller-macOS-Intel.zip` | wie oben |
+| Windows 10/11 | [APC-RGB-Controller-Windows.exe](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-Windows.exe) | Doppelklick. Beim ersten Start evtl. „Weitere Informationen → Trotzdem ausführen“ (Programm ist nicht signiert). |
+| macOS mit Apple Silicon (M1 oder neuer) | [APC-RGB-Controller-macOS-AppleSilicon.zip](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-macOS-AppleSilicon.zip) | Entpacken, App in „Programme“ ziehen, dann **Rechtsklick → Öffnen** (nur beim ersten Mal, App ist nicht signiert). |
+| macOS mit Intel-Prozessor | [APC-RGB-Controller-macOS-Intel.zip](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-macOS-Intel.zip) | wie oben |
 
-Falls macOS meldet, die App sei „beschädigt“: im Terminal einmal
-`xattr -cr "/Applications/APC RGB Controller.app"` ausführen.
+Welcher Mac? Apfel-Menü → *Über diesen Mac*: „Chip: Apple M…“ = Apple Silicon,
+„Prozessor: … Intel …“ = Intel.
+
+Falls macOS meldet, die App sei „beschädigt“, im Terminal einmal ausführen:
+
+```bash
+xattr -cr "/Applications/APC RGB Controller.app"
+```
+
+Eigene Layouts und Einstellungen bleiben erhalten, wenn man das Programm durch eine neuere Version
+ersetzt.
 
 ## Bedienung
 
@@ -77,9 +85,8 @@ Links in der Seitenleiste:
 
 ## Dateiformat `.midirgb`
 
-JSON wie bisher, aber übersichtlicher: pro Pad Note, Farbwert (Velocity), Kanal (Modus) und die
-Anzeigefarbe. Das Gerät wird nicht mehr in jeder Datei gespeichert, sondern einmal in den
-Einstellungen. **Alte Dateien aus Version 1 lassen sich weiterhin öffnen.**
+JSON mit Note, Farbwert (Velocity), Kanal (Modus) und Anzeigefarbe für jedes Pad.
+**Dateien aus Version 1 lassen sich weiterhin öffnen.**
 
 ```json
 {"format": "midirgb", "version": 2, "name": "Show",
@@ -105,6 +112,13 @@ python main.py
 ```
 
 Tests: `pip install -r requirements-build.txt` und dann `python -m pytest`.
+
+### Neue Version veröffentlichen
+
+1. Neue Versionsnummer in `apc_rgb/__init__.py` eintragen (z. B. `VERSION = "2.1.0"`) und pushen.
+2. Passenden Tag anlegen und pushen, z. B. `v2.1.0` (oder auf GitHub ein Release mit diesem Tag erstellen).
+3. GitHub Actions baut die Windows- und macOS-Versionen, testet, ob sie starten, und veröffentlicht
+   sie unter Releases. Passt der Tag nicht zur Versionsnummer, bricht der Build ab.
 
 ## Projektstruktur
 

@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   APP_NAME: APC RGB Controller
@@ -46,6 +46,16 @@ jobs:
 
       - name: Tests
         run: python -m pytest -q tests
+
+      - name: Check that the tag matches the app version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          APP_VERSION=$(python -c "import apc_rgb; print(apc_rgb.VERSION)")
+          if [ "${GITHUB_REF_NAME}" != "v${APP_VERSION}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match VERSION ${APP_VERSION} in apc_rgb/__init__.py"
+            exit 1
+          fi
 
       - name: Collect license texts
         shell: bash
@@ -148,12 +158,16 @@ jobs:
           path: out/*
           if-no-files-found: error
 
+  # Pushing a tag like v2.0.0 builds everything and publishes a GitHub release with the files.
   release:
     name: Release
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: out
@@ -161,5 +175,8 @@ jobs:
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
+          name: APC RGB Controller ${{ github.ref_name }}
+          body_path: .github/release-notes.md
           files: out/*
-          generate_release_notes: true
+          fail_on_unmatched_files: true
+          make_latest: true

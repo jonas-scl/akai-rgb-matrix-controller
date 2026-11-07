@@ -13,20 +13,24 @@ the ••• menu).
 
 ## Download
 
-Ready-to-run programs (no Python needed) are available under **Releases**, or for every build under
-**Actions → Build → latest run → Artifacts**:
+Get the latest version from **[Releases](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest)** – no installation and no Python needed:
 
-| System | File | How to start |
+| System | Download | How to start |
 | --- | --- | --- |
-| Windows 10/11 | `APC-RGB-Controller-Windows.exe` | Double-click. On first start Windows may warn you: “More info → Run anyway” (the program is not code-signed). |
-| macOS Apple Silicon (M1–M4) | `APC-RGB-Controller-macOS-AppleSilicon.zip` | Unzip, move the app to “Applications”, **right-click → Open** (first time only, the app is not signed). |
-| macOS Intel | `APC-RGB-Controller-macOS-Intel.zip` | same as above |
+| Windows 10/11 | [APC-RGB-Controller-Windows.exe](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-Windows.exe) | Double-click. On first start Windows may warn you: “More info → Run anyway” (the program is not code-signed). |
+| macOS with Apple Silicon (M1 or newer) | [APC-RGB-Controller-macOS-AppleSilicon.zip](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-macOS-AppleSilicon.zip) | Unzip, move the app to “Applications”, then **right-click → Open** (first time only, the app is not signed). |
+| macOS with Intel processor | [APC-RGB-Controller-macOS-Intel.zip](https://github.com/jonas-scl/akai-rgb-matrix-controller/releases/latest/download/APC-RGB-Controller-macOS-Intel.zip) | same as above |
+
+Not sure which Mac you have? Apple menu → *About This Mac*: “Chip: Apple M…” means Apple Silicon,
+“Processor: … Intel …” means Intel.
 
 If macOS says the app is “damaged”, run this once in the Terminal:
 
 ```bash
 xattr -cr "/Applications/APC RGB Controller.app"
 ```
+
+Your layouts and settings are kept when you replace the program with a newer version.
 
 ## How to use
 
@@ -108,6 +112,13 @@ python main.py
 
 Tests: `pip install -r requirements-build.txt`, then `python -m pytest`.
 
+### Publishing a new version
+
+1. Set the new version number in `apc_rgb/__init__.py` (e.g. `VERSION = "2.1.0"`) and push it.
+2. Create and push a matching tag, e.g. `v2.1.0` (or create a release with that tag on GitHub).
+3. GitHub Actions builds Windows and macOS versions, tests that they start and publishes them under
+   Releases. The build stops if the tag does not match the version number.
+
 ## Project structure
 
 ```
@@ -116,10 +127,10 @@ apc_rgb/app.py          main window
 apc_rgb/matrix.py       8×8 grid
 apc_rgb/midi.py         MIDI output (one port, Note-On only)
 apc_rgb/layout.py       file format (v1 + v2)
-apc_rgb/storage.py      autosave, standard layout, library, history
+apc_rgb/storage.py      autosave, default layout, library, history
 apc_rgb/palette.py      128-colour table and modes
 apc_rgb/i18n.py         interface texts (English / German)
-apc_rgb/presets/        built-in layouts (Standard, Farbtest)
+apc_rgb/presets/        built-in layouts (Default, Colour test)
 legacy/                 version 1 (original script)
 tools/                  helpers for the build (screenshot, license notices)
 .github/workflows/      builds for Windows and macOS

@@ -21,4 +21,4 @@ conversion), pytest.
 
 The full license texts are collected automatically during every build
 (`tools/third_party_notices.py`) into `THIRD_PARTY_NOTICES.txt`. That file is bundled inside the
-app (••• menu → “Lizenzen …”) and attached to every release.
+app (••• menu → “Licenses …”) and attached to every release.
