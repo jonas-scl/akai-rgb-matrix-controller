@@ -125,13 +125,17 @@ tools/                  Hilfsskripte für den Build (Screenshot, Lizenzhinweise)
 
 ## Lizenz
 
-Copyright © 2026 [jonas-scl](https://github.com/jonas-scl). Alle Rechte vorbehalten.
+Copyright © 2026 [jonas-scl](https://github.com/jonas-scl).
+Lizenziert unter der [PolyForm Shield License 1.0.0](LICENSE).
 
-Das Programm darf **kostenlos und für jeden Zweck genutzt werden – auch beruflich** (z. B. bei
-bezahlten Veranstaltungen), für den eigenen Gebrauch verändert und unverändert kostenlos
-weitergegeben werden. Veränderte Versionen veröffentlichen, den Code in anderen Projekten
-verwenden oder ihn verkaufen geht nur mit schriftlicher Erlaubnis. Maßgeblich ist der englische
-Text in [LICENSE](LICENSE). Die Software wird ohne Gewähr bereitgestellt.
+Kurz gesagt (maßgeblich ist der englische Text in [LICENSE](LICENSE)): Das Programm darf
+**kostenlos und für jeden Zweck genutzt werden – auch beruflich** (z. B. bei bezahlten
+Veranstaltungen), verändert und weitergegeben werden. **Nicht** erlaubt ist, damit ein Produkt
+anzubieten, das mit ihm konkurriert – also es oder eine veränderte Version zu verkaufen. Die
+Software wird ohne Gewähr und ohne Haftung bereitgestellt.
+
+**Beiträge:** Wer einen Beitrag einreicht (z. B. einen Pull Request), ist einverstanden, dass der
+Autor ihn als Teil dieses Projekts verwenden, ändern, neu lizenzieren und verkaufen darf.
 
 Fremdkomponenten (Python, Tcl/Tk, python-rtmidi/RtMidi, CustomTkinter, …) stehen unter ihren
 eigenen Lizenzen, siehe [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).

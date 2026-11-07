@@ -137,12 +137,12 @@ S = {
     "data_dir": ("Data folder", "Datenordner"),
     "about_title": ("About", "Über"),
     "about": ("{app} {version}\n\nRGB colours for the Akai APC mini mk2.\n\n"
-              "© 2026 {author}. All rights reserved.\nFree to use under the license "
+              "© 2026 {author}. Licensed under the PolyForm Shield License 1.0.0 "
               "(••• → Licenses). No warranty.\n\n"
               "Akai, APC and APC mini are trademarks of their respective owners; "
               "this project is not affiliated with them.\n\nData folder:\n{dir}",
               "{app} {version}\n\nRGB-Steuerung für das Akai APC mini mk2.\n\n"
-              "© 2026 {author}. Alle Rechte vorbehalten.\nKostenlose Nutzung gemäß Lizenz "
+              "© 2026 {author}. Lizenz: PolyForm Shield License 1.0.0 "
               "(••• → Lizenzen). Ohne Gewähr.\n\n"
               "Akai, APC und APC mini sind Marken ihrer Inhaber; keine Verbindung zu diesen.\n\n"
               "Datenordner:\n{dir}"),

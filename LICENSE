@@ -1,59 +1,93 @@
-APC RGB Controller - Free Use License
+Required Notice: Copyright 2026 jonas-scl (https://github.com/jonas-scl)
 
-Copyright (c) 2026 jonas-scl (https://github.com/jonas-scl). All rights reserved.
+Licensor Line of Business: APC RGB Controller - software for setting the LED colours of MIDI pad controllers (https://github.com/jonas-scl/akai-rgb-matrix-controller)
 
-The source code, the application builds, the icon and the documentation of
-this project (together "the Software") are protected by copyright. The
-copyright holder grants you the following permissions, free of charge:
+# PolyForm Shield License 1.0.0
 
-1. Use. You may download, install and run the Software for any purpose,
-   including commercial purposes (for example to operate lighting at paid
-   events, in a venue or in a rental company).
+<https://polyformproject.org/licenses/shield/1.0.0>
 
-2. Changes for yourself. You may modify the Software for your own use or for
-   internal use within your organisation.
+## Acceptance
 
-3. Sharing. You may share unmodified copies of the Software, free of charge,
-   provided that this license file and the copyright notice stay included.
-   Pointing others to the official repository is always welcome.
+In order to get any license under these terms, you must agree to them as both strict obligations and conditions to all your licenses.
 
-4. Restrictions. Unless you have prior written permission from the copyright
-   holder (an e-mail is sufficient), you may NOT:
-   a) publish or distribute modified versions of the Software, or
-      substantial parts of its source code, in other projects;
-   b) sell, rent or sublicense the Software, or charge for it, alone or as
-      part of another product or service;
-   c) remove or change copyright notices or this license.
+## Copyright License
 
-5. Contributions. If you submit a contribution to this project (for example
-   a pull request, patch or suggestion with code), you confirm that you have
-   the right to do so, and you grant the copyright holder a perpetual,
-   worldwide, royalty-free and irrevocable license to use, modify, publish,
-   sublicense and distribute your contribution under any terms. Forking the
-   repository on GitHub to prepare a contribution is allowed.
+The licensor grants you a copyright license for the software to do everything you might do with the software that would otherwise infringe the licensor's copyright in it for any permitted purpose.  However, you may only distribute the software according to [Distribution License](#distribution-license) and make changes or new works based on the software according to [Changes and New Works License](#changes-and-new-works-license).
 
-6. Third-party components. The Software uses third-party components (for
-   example Python, Tcl/Tk, python-rtmidi/RtMidi and CustomTkinter). They are
-   licensed under their own licenses, see THIRD_PARTY_LICENSES.md. Nothing in
-   this license limits the rights those licenses give you.
+## Distribution License
 
-7. Trademarks. This license grants no rights to any names or trademarks.
-   "Akai", "APC" and "APC mini" are trademarks of their respective owners,
-   "Onyx" and "Obsidian" likewise. This project is not affiliated with,
-   endorsed or supported by them.
+The licensor grants you an additional copyright license to distribute copies of the software.  Your license to distribute covers distributing the software with changes and new works permitted by [Changes and New Works License](#changes-and-new-works-license).
 
-8. No warranty. The Software is provided "as is", without warranty of any
-   kind, express or implied, including but not limited to the warranties of
-   merchantability, fitness for a particular purpose and non-infringement.
+## Notices
 
-9. Limitation of liability. To the maximum extent permitted by applicable
-   law, the copyright holder is not liable for any damages arising from the
-   use of the Software. This does not limit liability for intent or gross
-   negligence, for injury to life, body or health, or any other liability
-   that cannot be excluded by law.
+You must ensure that anyone who gets a copy of any part of the software from you also gets a copy of these terms or the URL for them above, as well as copies of any plain-text lines beginning with `Required Notice:` that the licensor provided with the software.  For example:
 
-10. Termination. If you violate this license, the permissions granted to you
-    end automatically.
+> Required Notice: Copyright Yoyodyne, Inc. (http://example.com)
 
-All rights not expressly granted in this license are reserved by the
-copyright holder.
+## Changes and New Works License
+
+The licensor grants you an additional copyright license to make changes and new works based on the software for any permitted purpose.
+
+## Patent License
+
+The licensor grants you a patent license for the software that covers patent claims the licensor can license, or becomes able to license, that you would infringe by using the software.
+
+## Noncompete
+
+Any purpose is a permitted purpose, except for providing any product that competes with the software or any product the licensor or any of its affiliates provides using the software.
+
+## Competition
+
+Goods and services compete even when they provide functionality through different kinds of interfaces or for different technical platforms.  Applications can compete with services, libraries with plugins, frameworks with development tools, and so on, even if they're written in different programming languages or for different computer architectures.  Goods and services compete even when provided free of charge.  If you market a product as a practical substitute for the software or another product, it definitely competes.
+
+## New Products
+
+If you are using the software to provide a product that does not compete, but the licensor or any of its affiliates brings your product into competition by providing a new version of the software or another product using the software, you may continue using versions of the software available under these terms beforehand to provide your competing product, but not any later versions.
+
+## Discontinued Products
+
+You may begin using the software to compete with a product or service that the licensor or any of its affiliates has stopped providing, unless the licensor includes a plain-text line beginning with `Licensor Line of Business:` with the software that mentions that line of business.  For example:
+
+> Licensor Line of Business: YoyodyneCMS Content Management System (http://example.com/cms)
+
+## Sales of Business
+
+If the licensor or any of its affiliates sells a line of business developing the software or using the software to provide a product, the buyer can also enforce [Noncompete](#noncompete) for that product.
+
+## Fair Use
+
+You may have "fair use" rights for the software under the law. These terms do not limit them.
+
+## No Other Rights
+
+These terms do not allow you to sublicense or transfer any of your licenses to anyone else, or prevent the licensor from granting licenses to anyone else.  These terms do not imply any other licenses.
+
+## Patent Defense
+
+If you make any written claim that the software infringes or contributes to infringement of any patent, your patent license for the software granted under these terms ends immediately. If your company makes such a claim, your patent license ends immediately for work on behalf of your company.
+
+## Violations
+
+The first time you are notified in writing that you have violated any of these terms, or done anything with the software not covered by your licenses, your licenses can nonetheless continue if you come into full compliance with these terms, and take practical steps to correct past violations, within 32 days of receiving notice.  Otherwise, all your licenses end immediately.
+
+## No Liability
+
+***As far as the law allows, the software comes as is, without any warranty or condition, and the licensor will not be liable to you for any damages arising out of these terms or the use or nature of the software, under any kind of legal claim.***
+
+## Definitions
+
+The **licensor** is the individual or entity offering these terms, and the **software** is the software the licensor makes available under these terms.
+
+A **product** can be a good or service, or a combination of them.
+
+**You** refers to the individual or entity agreeing to these terms.
+
+**Your company** is any legal entity, sole proprietorship, or other kind of organization that you work for, plus all its affiliates.
+
+**Affiliates** means the other organizations than an organization has control over, is under the control of, or is under common control with.
+
+**Control** means ownership of substantially all the assets of an entity, or the power to direct its management and policies by vote, contract, or otherwise.  Control can be direct or indirect.
+
+**Your licenses** are all the licenses granted to you for the software under these terms.
+
+**Use** means anything you do with the software requiring one of your licenses.
